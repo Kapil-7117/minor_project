@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Packages</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Background and Font Style */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+           
+            height: 150vh;
+            background-image: url('marinedrive.jpg'); /* Background Image */
+            
+            background-size:cover;
+            background-position: center;
+            flex-direction: column;
+        }
+
+        /* Mumbai Tour Description */
+        .tour-description {
+            padding-bottom: 60px;
+            margin-top: 60px;
+            max-width: 600px;
+           margin-left: 50px;
+            font-size: 35px;
+        }
+
+        .tour-description h1 {
+            font-size: 80px;
+            color: #000000;
+            margin-bottom: 15px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .tour-description p {
+            color: #000000;
+            line-height: 1.5;
+            margin-left: 20px;
+            width: 1200px;
+            font-weight: bold;
+        }
+
+        /* Container for Cards */
+        .card-container {
+            display: flex;
+            gap: 20px;
+            margin-left: 250px;
+            max-width: 1000px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Common Card Styles */
+        .card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            width: 300px;
+            padding: 20px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Hover Effects for Cards */
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header for Each Card */
+        .card-header {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c2c2c;
+            transition: color 0.3s ease;
+        }
+
+        .card-header:hover {
+            color: #ff5722;
+        }
+
+        /* Card Body Content */
+        .card-body {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .card-body ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 15px;
+        }
+
+        .card-body ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Footer - Price & Button */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #4caf50;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Card Specific Background Colors */
+        .silver {
+            background: linear-gradient(135deg, #c0c0c0, #b0b0b0);
+        }
+
+        .gold {
+            background: linear-gradient(135deg, #ffd700, #ffcc00);
+        }
+
+        .platinum {
+            background: linear-gradient(135deg, #e5e5e5, #b8b8b8);
+        }
+
+        /* Title of Cards */
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Modal (Hidden by Default) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+        }
+
+        /* Modal Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Submit Button */
+        .form-group button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Confirmation Overlay */
+        #confirmation-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 65%;
+            width: 30%;
+            height: 20%;
+            background-color: #f8f8f8;
+            color: black;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 20px;
+            z-index: 999;
+            border-radius: 7px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card-container {
+                flex-direction: column;
+            }
+
+            .card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Mumbai Tour Description -->
+    <div class="tour-description">
+        <h1>Discover Mumbai</h1>
+        <p>Explore the vibrant city of Mumbai, a blend of historical landmarks, modern attractions, and unforgettable experiences. From the iconic Gateway of India to the bustling Colaba markets, our Mumbai tour offers the best of this metropolitan gem. Whether you’re visiting the famous Marine Drive or soaking in the nightlife, Mumbai has something for everyone. Join us for an exciting journey through the heart of India!</p>
+    </div>
+
+    <div class="card-container">
+        <!-- Silver Card -->
+        <div class="card silver" data-price="25000">
+            <div class="card-header">Silver Package</div>
+            <div class="card-body">
+                <div class="card-title">3-Day Tour</div>
+                <p>Enjoy a short but memorable 3-day getaway with our Silver package. Affordable and packed with experiences!</p>
+                <ul>
+                    <li>3-Star Hotels</li>
+                    <li>Group Sightseeing</li>
+                    <li>Daily Meals</li>
+                    <li>Transportation Included</li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <div class="price">₹25,000 / per Person</div>
+                <button class="button" onclick="openModal('Silver Package', 25000)">Book Now</button>
+            </div>
+        </div>
+
+        <!-- Gold Card -->
+        <div class="card gold" data-price="50000">
+            <div class="card-header">Gold Package</div>
+            <div class="card-body">
+                <div class="card-title">5-Day Tour</div>
+                <p>Our Gold package offers a premium experience with enhanced comfort and utilities perfect for a 5-day vacation.</p>
+                <ul>
+                    <li>4-Star Hotels</li>
+                    <li>Private Guided Tours</li>
+                    <li>All Meals Included</li>
+                    <li>VIP Transportation</li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <div class="price">₹50,000 / per Person</div>
+                <button class="button" onclick="openModal('Gold Package', 50000)">Book Now</button>
+            </div>
+        </div>
+
+        <!-- Platinum Card -->
+        <div class="card platinum" data-price="100000">
+            <div class="card-header">Platinum Package</div>
+            <div class="card-body">
+                <div class="card-title">7-Day Tour</div>
+                <p>The ultimate luxury tour experience. Spend 7 days exploring, with first-class accommodations and all the best amenities!</p>
+                <ul>
+                    <li>5-Star Hotels</li>
+                    <li>Exclusive Private Tours</li>
+                    <li>Gourmet Dining</li>
+                    <li>First-Class Transportation</li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <div class="price">₹1,00,000 / per Person</div>
+                <button class="button" onclick="openModal('Platinum Package', 100000)">Book Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Book Your Package</h2>
+            <form id="bookingForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="people">Number of People</label>
+                    <input type="number" id="people" name="people" value="1" min="1" required onchange="updatePrice()">
+                </div>
+                <div class="form-group">
+                    <button type="submit">Confirm Booking</button>
+                </div>
+                <div class="form-group">
+                    <p>Total Price: ₹<span id="totalPrice">0</span></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Overlay -->
+    <div id="confirmation-overlay">
+        Your booking is confirmed! 
+        Our team will contact you soon.
+    </div>
+
+    <script>
+        let selectedPackagePrice = 0;
+
+        function openModal(packageName, price) {
+            selectedPackagePrice = price;
+            document.getElementById("myModal").style.display = "block";
+            document.getElementById("totalPrice").innerText = price;
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            // Close modal
+            closeModal();
+
+            // Show confirmation overlay
+            let overlay = document.getElementById("confirmation-overlay");
+            overlay.style.display = "block";
+
+            // Hide the overlay after 5 seconds
+            setTimeout(function () {
+                overlay.style.display = "none";
+            }, 5000);
+        }
+
+        function updatePrice() {
+            let numberOfPeople = document.getElementById("people").value;
+            let totalPrice = selectedPackagePrice * numberOfPeople;
+            document.getElementById("totalPrice").innerText = totalPrice;
+        }
+    </script>
+
+</body>
+
+</html>
